@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"import sys; sys.path.insert\\(0, 'dashboard'\\); from app import app; print\\('Dashboard enhanced successfully'\\)\")",
+      "PowerShell(pip show *)"
+    ]
+  }
+}

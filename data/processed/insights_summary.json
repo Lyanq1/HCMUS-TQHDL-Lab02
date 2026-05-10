@@ -1,0 +1,176 @@
+{
+  "overview": {
+    "total_products": 41576,
+    "total_categories": 6,
+    "total_brands": 824,
+    "total_revenue_estimate": 86397708452.0,
+    "total_quantity_sold": 739094,
+    "avg_price": 272358.878271118,
+    "avg_rating": 1.3815446411391188
+  },
+  "price_segments": {
+    "0-100k": {
+      "product_count": 23160,
+      "product_pct": 55.70521454685395,
+      "revenue": 24287547699.0,
+      "revenue_pct": 28.111333198719546,
+      "avg_sales": 23.176338514680484
+    },
+    "100-300k": {
+      "product_count": 10987,
+      "product_pct": 26.426303636713488,
+      "revenue": 24916002704.0,
+      "revenue_pct": 28.838730969169852,
+      "avg_sales": 13.199599526713389
+    },
+    "300-500k": {
+      "product_count": 2971,
+      "product_pct": 7.145949586299788,
+      "revenue": 12278335957.0,
+      "revenue_pct": 14.211413910151888,
+      "avg_sales": 10.458768091551667
+    },
+    "500k-1M": {
+      "product_count": 2343,
+      "product_pct": 5.63546276698095,
+      "revenue": 12543122484.0,
+      "revenue_pct": 14.51788792635465,
+      "avg_sales": 7.961587708066581
+    },
+    ">1M": {
+      "product_count": 2114,
+      "product_pct": 5.084664229363094,
+      "revenue": 12372699608.0,
+      "revenue_pct": 14.320633995604068,
+      "avg_sales": 3.583727530747398
+    }
+  },
+  "top_performers": {
+    "top_products": [
+      {
+        "name": "Kính mát, mắt kính 2508 nhiều màu lựa chọn",
+        "brand": "OEM",
+        "price": 600000,
+        "quantity_sold": 2761,
+        "revenue_estimate": 1656600000
+      },
+      {
+        "name": "Túi Đeo Chéo Unisex Laza TXTK349 (Đen)",
+        "brand": "LAZA",
+        "price": 60000,
+        "quantity_sold": 24847,
+        "revenue_estimate": 1490820000
+      },
+      {
+        "name": "Giày Converse Chuck Taylor All Star 1970s Hi Top - 162050V",
+        "brand": "Converse",
+        "price": 1700000,
+        "quantity_sold": 661,
+        "revenue_estimate": 1123700000
+      },
+      {
+        "name": "Vali Kéo LUG Lusetti Nolan S20/S24/S28 LS802 Nhựa PP Chống Bể vỡ, Hạn Chế Trầy Xước, Khóa Số TSA Bảo Mật Cao",
+        "brand": "Lusetti",
+        "price": 1590000,
+        "quantity_sold": 694,
+        "revenue_estimate": 1103460000
+      },
+      {
+        "name": "Giày Converse Chuck Taylor All Star 1970s Low Top - 162058V",
+        "brand": "Converse",
+        "price": 1615000,
+        "quantity_sold": 574,
+        "revenue_estimate": 927010000
+      },
+      {
+        "name": "Vali Kamiliant Zakk Spinner TSA Thương hiệu Chính Hãng , bảo hành quốc tế trên 118 quốc gia",
+        "brand": "KAMILIANT",
+        "price": 1400000,
+        "quantity_sold": 589,
+        "revenue_estimate": 824600000
+      },
+      {
+        "name": "Vali du lịch BAMOZO 8801 vali kéo nhựa được bảo hành 5 năm",
+        "brand": "BAMOZO",
+        "price": 369000,
+        "quantity_sold": 2010,
+        "revenue_estimate": 741690000
+      },
+      {
+        "name": "Sea Choice Bảo hành 3 năm Vali du lịch 20/24 inch 4 bánh 4 bánh xoay 360 độ siêu êm Vỏ xe đẩy nhẹ chống nước có 3 màu",
+        "brand": "Sea Choice",
+        "price": 1565926,
+        "quantity_sold": 446,
+        "revenue_estimate": 698402996
+      },
+      {
+        "name": "Bộ Vệ Sinh Giày Dép Crep Protect Cure Kit (100ml)",
+        "brand": "Crep Protect",
+        "price": 450000,
+        "quantity_sold": 1507,
+        "revenue_estimate": 678150000
+      },
+      {
+        "name": "Miếng lót giảm size cho giày bị rộng Cao Cấp - buybox - BBPK11",
+        "brand": "buybox",
+        "price": 70000,
+        "quantity_sold": 9245,
+        "revenue_estimate": 647150000
+      }
+    ],
+    "top_categories": {
+      "backpacks_suitcases": 28992857627.0,
+      "men_shoes": 15447480294.0,
+      "fashion_accessories": 14038799131.0
+    },
+    "top_brands": {
+      "OEM": 27093879835.0,
+      "HARAS": 3731737400.0,
+      "Converse": 2737586500.0,
+      "ANANSHOP688": 2210186050.0,
+      "BAMOZO": 1779086000.0,
+      "LAZA": 1503167000.0,
+      "buybox": 1472366410.0,
+      "BIGGBEN": 1422114000.0,
+      "Sea Choice": 1412941821.0,
+      "Sakos": 1311375900.0
+    }
+  },
+  "market_structure": {
+    "oem_product_count": 30673,
+    "oem_pct": 73.77573600153934,
+    "oem_revenue_pct": 31.35948894993269,
+    "branded_avg_price": 613357.1810510869,
+    "oem_avg_price": 151147.89482606854,
+    "price_premium": 4.057993541735395
+  },
+  "customer_engagement": {
+    "review_sales_correlation": 0.6214590058440135,
+    "review_impact_multiplier": 147.35730467453166,
+    "avg_rating": 1.3815446411391188,
+    "products_with_reviews": 13015,
+    "review_coverage_pct": 31.304117760246296
+  },
+  "key_findings": [
+    {
+      "title": "Price Segment Dominance",
+      "finding": "0-100k segment contains 55.7% of products but generates only 28.1% of revenue",
+      "implication": "Opportunity to focus on higher-margin segments"
+    },
+    {
+      "title": "Revenue Concentration",
+      "finding": "Top 100 products (0.24% of catalog) generate 31.8% of total revenue",
+      "implication": "Highly concentrated market - focus on top performers"
+    },
+    {
+      "title": "OEM vs Branded",
+      "finding": "OEM products are 73.8% of catalog, but branded products command 4.1x price premium",
+      "implication": "Brand value is significant in this market"
+    },
+    {
+      "title": "Review Impact on Sales",
+      "finding": "Products with 50+ reviews sell 147.4x more than products with <10 reviews (correlation: 0.621)",
+      "implication": "Review generation is critical for sales success"
+    }
+  ]
+}
