@@ -145,7 +145,7 @@
     "price_premium": 4.057993541735395
   },
   "customer_engagement": {
-    "review_sales_correlation": 0.6214590058440135,
+    "review_sales_correlation": 0.6214590058440131,
     "review_impact_multiplier": 147.35730467453166,
     "avg_rating": 1.3815446411391188,
     "products_with_reviews": 13015,

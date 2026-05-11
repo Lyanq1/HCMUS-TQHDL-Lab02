@@ -101,10 +101,34 @@ def create_overview_layout(df):
                         y='revenue',
                         size='sold',
                         color='category',
-                        title="Category Performance: Products vs Revenue (size = units sold)",
-                        labels={'products': 'Product Count', 'revenue': 'Revenue (VND)'}
+                        text='category',
+                        title="Category Performance: Products vs Revenue (bubble size = units sold)",
+                        labels={'products': 'Product Count', 'revenue': 'Revenue (VND)'},
+                        size_max=60
+                    ).update_traces(
+                        textposition='top center',
+                        textfont_size=10,
+                        marker=dict(line=dict(width=2, color='white'))
+                    ).update_layout(height=450)
+                )
+            ], width=6),
+            dbc.Col([
+                dcc.Graph(
+                    figure=go.Figure(data=[
+                        go.Bar(name='Revenue (B VND)', x=cat_stats['category'],
+                               y=cat_stats['revenue']/1e9, marker_color='lightseagreen'),
+                        go.Bar(name='Products (x100)', x=cat_stats['category'],
+                               y=cat_stats['products']/100, marker_color='lightcoral'),
+                        go.Bar(name='Sales (x1000)', x=cat_stats['category'],
+                               y=cat_stats['sold']/1000, marker_color='lightskyblue')
+                    ]).update_layout(
+                        title='Category Metrics Comparison (normalized)',
+                        barmode='group',
+                        xaxis_tickangle=-45,
+                        height=450,
+                        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
                     )
                 )
-            ], width=12),
+            ], width=6),
         ])
     ], fluid=True)

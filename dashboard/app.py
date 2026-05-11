@@ -37,6 +37,7 @@ app.layout = dbc.Container([
         dbc.Tab(label="Sales Performance", tab_id="sales"),
         dbc.Tab(label="Brand & Market", tab_id="brand"),
         dbc.Tab(label="Customer Engagement", tab_id="engagement"),
+        dbc.Tab(label="Product Features", tab_id="features"),
         dbc.Tab(label="Deep Dive", tab_id="deepdive"),
         dbc.Tab(label="AI Assistant", tab_id="ai")
     ], id="tabs", active_tab="overview"),
@@ -62,6 +63,9 @@ def render_tab_content(active_tab):
     elif active_tab == "engagement":
         from layouts.customer_engagement import create_engagement_layout
         return create_engagement_layout(df)
+    elif active_tab == "features":
+        from layouts.product_features import create_features_layout
+        return create_features_layout(df)
     elif active_tab == "deepdive":
         from layouts.deep_dive import create_deepdive_layout
         return create_deepdive_layout(df)
