@@ -20,8 +20,11 @@ def create_overview_layout(df):
     }).reset_index()
     cat_stats.columns = ['category', 'revenue', 'sold', 'products']
 
-    # Price segment revenue
+    # Price segment revenue — sorted for horizontal bar (book.md: bars > pie for comparison)
     seg_revenue = df.groupby('price_segment')['revenue_estimate'].sum().reset_index()
+    seg_revenue.columns = ['price_segment', 'revenue']
+    seg_revenue['revenue_pct'] = (seg_revenue['revenue'] / seg_revenue['revenue'].sum() * 100).round(1)
+    seg_revenue = seg_revenue.sort_values('revenue_pct', ascending=True)
 
     return dbc.Container([
         # KPI Cards
@@ -30,8 +33,8 @@ def create_overview_layout(df):
                 dbc.Card([
                     dbc.CardBody([
                         html.H4(f"{total_products:,}", className="text-primary"),
-                        html.P("Products", className="mb-0"),
-                        html.Small(f"{total_brands} brands", className="text-muted")
+                        html.P("Sản phẩm", className="mb-0"),
+                        html.Small(f"{total_brands} thương hiệu", className="text-muted")
                     ])
                 ], className="h-100")
             ], width=3),
@@ -39,8 +42,11 @@ def create_overview_layout(df):
                 dbc.Card([
                     dbc.CardBody([
                         html.H4(f"{total_revenue/1e9:.1f}B", className="text-success"),
-                        html.P("Revenue (VND)", className="mb-0"),
-                        html.Small(f"Avg: {total_revenue/total_products/1000:.0f}k/product", className="text-muted")
+                        html.P("Doanh thu (VNĐ)", className="mb-0"),
+                        html.Small(
+                            f"TB: {total_revenue/total_products/1000:.0f}k/SP",
+                            className="text-muted",
+                        )
                     ])
                 ], className="h-100")
             ], width=3),
@@ -48,8 +54,8 @@ def create_overview_layout(df):
                 dbc.Card([
                     dbc.CardBody([
                         html.H4(f"{total_sold:,}", className="text-info"),
-                        html.P("Units Sold", className="mb-0"),
-                        html.Small(f"Avg: {total_sold/total_products:.1f}/product", className="text-muted")
+                        html.P("Đã bán (đơn vị)", className="mb-0"),
+                        html.Small(f"TB: {total_sold/total_products:.1f}/SP", className="text-muted")
                     ])
                 ], className="h-100")
             ], width=3),
@@ -57,8 +63,8 @@ def create_overview_layout(df):
                 dbc.Card([
                     dbc.CardBody([
                         html.H4(f"{avg_price/1000:.0f}k", className="text-warning"),
-                        html.P("Avg Price (VND)", className="mb-0"),
-                        html.Small(f"Rating: {avg_rating:.2f}/5", className="text-muted")
+                        html.P("Giá TB (VNĐ)", className="mb-0"),
+                        html.Small(f"Đánh giá TB: {avg_rating:.2f}/5", className="text-muted")
                     ])
                 ], className="h-100")
             ], width=3),
@@ -72,8 +78,8 @@ def create_overview_layout(df):
                         cat_stats,
                         x='category',
                         y='revenue',
-                        title="Revenue by Category",
-                        labels={'category': '', 'revenue': 'Revenue (VND)'},
+                        title="Doanh thu theo danh mục",
+                        labels={"category": "", "revenue": "Doanh thu (VNĐ)"},
                         color='revenue',
                         color_continuous_scale='Viridis'
                     ).update_xaxes(tickangle=-45).update_layout(showlegend=False)
@@ -81,13 +87,20 @@ def create_overview_layout(df):
             ], width=6),
             dbc.Col([
                 dcc.Graph(
-                    figure=px.pie(
+                    figure=px.bar(
                         seg_revenue,
-                        names='price_segment',
-                        values='revenue_estimate',
-                        title="Revenue Distribution by Price Segment",
-                        hole=0.4
-                    )
+                        x='revenue_pct',
+                        y='price_segment',
+                        orientation='h',
+                        title="Tỷ trọng doanh thu theo khúc giá (%)",
+                        labels={"revenue_pct": "Tỷ trọng doanh thu (%)", "price_segment": ""},
+                        color='revenue_pct',
+                        color_continuous_scale='Blues',
+                        text='revenue_pct'
+                    ).update_traces(
+                        texttemplate='%{text:.1f}%',
+                        textposition='outside'
+                    ).update_layout(showlegend=False)
                 )
             ], width=6),
         ], className="mb-4"),
@@ -102,8 +115,8 @@ def create_overview_layout(df):
                         size='sold',
                         color='category',
                         text='category',
-                        title="Category Performance: Products vs Revenue (bubble size = units sold)",
-                        labels={'products': 'Product Count', 'revenue': 'Revenue (VND)'},
+                        title="Hiệu suất danh mục: số SP vs doanh thu (kích thước bong bóng = đã bán)",
+                        labels={"products": "Số sản phẩm", "revenue": "Doanh thu (VNĐ)"},
                         size_max=60
                     ).update_traces(
                         textposition='top center',
@@ -115,14 +128,14 @@ def create_overview_layout(df):
             dbc.Col([
                 dcc.Graph(
                     figure=go.Figure(data=[
-                        go.Bar(name='Revenue (B VND)', x=cat_stats['category'],
+                        go.Bar(name="Doanh thu (tỷ VNĐ)", x=cat_stats['category'],
                                y=cat_stats['revenue']/1e9, marker_color='lightseagreen'),
-                        go.Bar(name='Products (x100)', x=cat_stats['category'],
+                        go.Bar(name="Sản phẩm (×100)", x=cat_stats['category'],
                                y=cat_stats['products']/100, marker_color='lightcoral'),
-                        go.Bar(name='Sales (x1000)', x=cat_stats['category'],
+                        go.Bar(name="Đã bán (×1000)", x=cat_stats['category'],
                                y=cat_stats['sold']/1000, marker_color='lightskyblue')
                     ]).update_layout(
-                        title='Category Metrics Comparison (normalized)',
+                        title="So sánh chỉ số theo danh mục",
                         barmode='group',
                         xaxis_tickangle=-45,
                         height=450,

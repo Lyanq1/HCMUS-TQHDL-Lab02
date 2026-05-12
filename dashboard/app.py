@@ -1,5 +1,6 @@
 import dash
 import dash_bootstrap_components as dbc
+from callbacks.ai_callbacks import register_ai_callbacks
 from dash import dcc, html, Input, Output, callback
 import pandas as pd
 import plotly.express as px
@@ -8,7 +9,7 @@ from pathlib import Path
 
 # Initialize app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
-app.title = "TIKI Fashion Analytics Dashboard"
+app.title = "Dashboard phân tích dữ liệu thời trang Tiki"
 
 # Load data
 data_path = Path(__file__).parent.parent / 'data' / 'processed'
@@ -17,29 +18,33 @@ df = pd.read_csv(data_path / 'combined_tiki_data.csv')
 # Feature engineering
 df['discount_pct'] = ((df['original_price'] - df['price']) / df['original_price'] * 100).round(2)
 df['revenue_estimate'] = df['price'] * df['quantity_sold']
-df['price_segment'] = pd.cut(df['price'],
-                              bins=[0, 100000, 300000, 500000, 1000000, float('inf')],
-                              labels=['0-100k', '100-300k', '300-500k', '500k-1M', '>1M'])
+df['price_segment'] = pd.cut(
+    df['price'],
+    bins=[0, 100000, 300000, 500000, 1000000, float('inf')],
+    labels=['Dưới 100k', '100–300k', '300–500k', '500k–1tr', 'Trên 1tr'],
+)
 
 # Layout
 app.layout = dbc.Container([
     dbc.Row([
         dbc.Col([
-            html.H1("TIKI Fashion Analytics Dashboard", className="text-center mb-4 mt-4"),
-            html.P("Interactive data visualization for TIKI e-commerce fashion products",
-                   className="text-center text-muted mb-4")
+            html.H1("Dashboard phân tích dữ liệu thời trang Tiki", className="text-center mb-4 mt-4"),
+            html.P(
+                "Trực quan hóa dữ liệu sản phẩm thời trang trên sàn thương mại điện tử Tiki",
+                className="text-center text-muted mb-4",
+            )
         ])
     ]),
 
     dbc.Tabs([
-        dbc.Tab(label="Overview", tab_id="overview"),
-        dbc.Tab(label="Price Analysis", tab_id="price"),
-        dbc.Tab(label="Sales Performance", tab_id="sales"),
-        dbc.Tab(label="Brand & Market", tab_id="brand"),
-        dbc.Tab(label="Customer Engagement", tab_id="engagement"),
-        dbc.Tab(label="Product Features", tab_id="features"),
-        dbc.Tab(label="Deep Dive", tab_id="deepdive"),
-        dbc.Tab(label="AI Assistant", tab_id="ai")
+        dbc.Tab(label="Tổng quan", tab_id="overview"),
+        dbc.Tab(label="Phân tích giá", tab_id="price"),
+        dbc.Tab(label="Hiệu suất bán hàng", tab_id="sales"),
+        dbc.Tab(label="Thương hiệu & thị trường", tab_id="brand"),
+        dbc.Tab(label="Tương tác khách hàng", tab_id="engagement"),
+        dbc.Tab(label="Tính năng sản phẩm", tab_id="features"),
+        dbc.Tab(label="Phân tích chuyên sâu", tab_id="deepdive"),
+        dbc.Tab(label="Trợ lý AI", tab_id="ai"),
     ], id="tabs", active_tab="overview"),
 
     html.Div(id="tab-content", className="mt-4")
@@ -82,10 +87,13 @@ def update_deepdive_chart(category):
         x='price',
         y='quantity_sold',
         color='brand',
-        title=f"Price vs Sales for {category}",
-        labels={'price': 'Price (VND)', 'quantity_sold': 'Quantity Sold'}
+        title=f"Giá và lượng bán — {category}",
+        labels={'price': 'Giá (VNĐ)', 'quantity_sold': 'Số lượng đã bán', 'brand': 'Thương hiệu'},
     )
     return fig
+
+
+register_ai_callbacks(app)
 
 if __name__ == '__main__':
     app.run(debug=True, port=8050)
