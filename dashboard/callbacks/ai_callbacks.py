@@ -141,15 +141,13 @@ def register_ai_callbacks(app) -> None:
                 html.P("Không có code để chạy.", className="text-warning"),
                 dbc.Alert("Nhập hoặc sinh code trước.", color="warning", className="py-2"),
             )
-        if not request_id:
-            return (
-                html.P("Thiếu request_id — hãy bấm Gửi cho AI trước.", className="text-warning"),
-                dbc.Alert("Thiếu request_id.", color="warning", className="py-2"),
-            )
+        payload: dict = {"code": str(code)}
+        if request_id:
+            payload["request_id"] = request_id
         try:
             r = requests.post(
                 f"{API_BASE}/api/execute/run",
-                json={"request_id": request_id, "code": str(code)},
+                json=payload,
                 timeout=180,
             )
         except requests.RequestException as e:
@@ -187,17 +185,47 @@ def register_ai_callbacks(app) -> None:
             parts.append(html.H6("Lỗi / traceback (stderr)", className="mt-3"))
             parts.append(html.Pre(stderr, className="bg-warning bg-opacity-25 p-2 rounded small", style={"whiteSpace": "pre-wrap"}))
 
-        for o in outputs:
-            url = o.get("url", "")
-            full = f"{API_BASE}{url}" if url.startswith("/") else url
-            parts.append(html.H6("Biểu đồ (Plotly HTML)", className="mt-3"))
-            parts.append(
-                html.Iframe(
-                    src=full,
-                    style={"width": "100%", "height": "520px", "border": "1px solid #ccc"},
-                    title="bieu-do-plotly",
+        # Debug: hiển thị số lượng outputs
+        if outputs:
+            parts.append(html.P(f"[Debug] Tìm thấy {len(outputs)} output(s)", className="small text-info"))
+
+        for idx, o in enumerate(outputs):
+            parts.append(html.H6(f"Biểu đồ #{idx+1}", className="mt-3"))
+            html_content = o.get("html_content")
+            has_content = html_content and len(html_content) > 100
+
+            # Debug info
+            parts.append(html.P(
+                f"[Debug] html_content: {'Có (' + str(len(html_content)) + ' chars)' if html_content else 'Không có'}, "
+                f"url: {o.get('url', 'N/A')}, kind: {o.get('kind', 'N/A')}",
+                className="small text-muted"
+            ))
+
+            if has_content:
+                parts.append(
+                    html.Div(
+                        html.Iframe(
+                            srcDoc=html_content,
+                            style={"width": "100%", "height": "520px", "border": "none", "overflow": "hidden"},
+                        ),
+                        className="border rounded bg-light p-2",
+                        style={"backgroundColor": "#f8fafc", "overflow": "hidden"},
+                    )
                 )
-            )
+            else:
+                url = o.get("url", "")
+                full = f"{API_BASE}{url}" if url.startswith("/") else url
+                parts.append(html.P(f"Fallback: load từ {full}", className="small text-warning"))
+                parts.append(
+                    html.Div(
+                        html.Iframe(
+                            src=full,
+                            style={"width": "100%", "height": "520px", "border": "none", "overflow": "hidden"},
+                        ),
+                        className="border rounded bg-light p-2",
+                        style={"backgroundColor": "#f8fafc", "overflow": "hidden"},
+                    )
+                )
 
         status_el = dbc.Alert(
             "Trạng thái: Đã chạy trên máy (sandbox API)." if status_txt == "success" else f"Trạng thái: {status_txt}",

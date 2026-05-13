@@ -135,17 +135,24 @@ def _execute_body(code: str) -> dict[str, Any]:
 
     try:
         with redirect_stdout(buf_out), redirect_stderr(buf_err):
-            exec(compile(code, "<user_code>", "exec"), globs, {})
+            exec(compile(code, "<user_code>", "exec"), globs)
 
         fig = globs.get("fig")
+        buf_out.write(f"\n[DEBUG] fig type: {type(fig)}, is None: {fig is None}\n")
         if fig is not None:
+            buf_out.write(f"[DEBUG] fig has write_html: {hasattr(fig, 'write_html')}\n")
             if hasattr(fig, "write_html"):
                 fname = f"fig_{uuid.uuid4().hex}.html"
                 fpath = DATA_TEMP / fname
+                buf_out.write(f"[DEBUG] Saving to: {fpath}\n")
                 pio.write_html(fig, file=str(fpath), include_plotlyjs="cdn", full_html=True)
+                buf_out.write(f"[DEBUG] File exists after write: {fpath.exists()}\n")
                 outputs.append({"filename": fname, "kind": "plotly_html"})
+                buf_out.write(f"[DEBUG] Added to outputs: {fname}\n")
             else:
                 buf_err.write("Biến `fig` không phải đối tượng Plotly Figure hợp lệ.\n")
+        else:
+            buf_out.write("[DEBUG] fig is None - không có biểu đồ để lưu\n")
 
     except Exception:
         status = "error"

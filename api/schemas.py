@@ -20,17 +20,18 @@ class GenerateResponse(BaseModel):
 
 
 class ExecuteRequest(BaseModel):
-    request_id: str
+    request_id: str | None = None
     code: str = Field(..., min_length=1)
 
 
 class OutputFile(BaseModel):
     url: str
     kind: str
+    html_content: str | None = None
 
 
 class ExecuteResponse(BaseModel):
-    request_id: str
+    request_id: str | None = None
     status: str
     stdout: str
     stderr: str

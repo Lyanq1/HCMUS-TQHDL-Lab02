@@ -16,8 +16,15 @@ def run_approved_code(code: str) -> tuple[dict[str, Any], int]:
 
 
 def build_outputs(result: dict[str, Any], static_prefix: str = "/static") -> list[dict[str, str]]:
+    from api.config import DATA_TEMP
     out = []
     for item in result.get("outputs") or []:
         fn = item.get("filename", "")
-        out.append({"url": f"{static_prefix}/{fn}", "kind": item.get("kind", "file")})
+        html_content = None
+        if item.get("kind") == "plotly_html":
+            try:
+                html_content = (DATA_TEMP / fn).read_text(encoding="utf-8")
+            except Exception:
+                pass
+        out.append({"url": f"{static_prefix}/{fn}", "kind": item.get("kind", "file"), "html_content": html_content})
     return out

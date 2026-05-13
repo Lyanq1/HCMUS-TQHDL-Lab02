@@ -18,6 +18,24 @@ _SEQ_BLUE = [
     [1.0, "#000080"],
 ]
 
+# Teal–xanh lá: dùng cho biểu đồ phân bổ SKU
+_SEQ_TEAL = [
+    [0.0, "#99f6e4"],
+    [0.25, "#2dd4bf"],
+    [0.55, "#0d9488"],
+    [0.80, "#0f766e"],
+    [1.0, "#134e4a"],
+]
+
+# Cam–hổ phách: dùng cho biểu đồ tổng lượng bán theo danh mục
+_SEQ_AMBER = [
+    [0.0, "#fde68a"],
+    [0.25, "#fbbf24"],
+    [0.55, "#d97706"],
+    [0.80, "#b45309"],
+    [1.0, "#78350f"],
+]
+
 # Một màu cho ranking (độ dài thanh là encoding chính — book.md: length mạnh nhất).
 _FILL_VOLUME = "#1e40af"
 _FILL_REVENUE = "#0f766e"
@@ -178,7 +196,7 @@ def create_sales_layout(df):
         x="sales_range",
         y="product_count",
         color="product_count",
-        color_continuous_scale=_SEQ_BLUE,
+        color_continuous_scale=_SEQ_TEAL,
         title="Phân bố SKU theo mức bán (số lượng)",
         labels={"sales_range": "Khoảng đã bán", "product_count": "Số SKU", "color": "Số SP"},
         category_orders={"sales_range": sales_labels},
@@ -202,7 +220,7 @@ def create_sales_layout(df):
         x="category",
         y="quantity_sold",
         color="quantity_sold",
-        color_continuous_scale=_SEQ_BLUE,
+        color_continuous_scale=_SEQ_AMBER,
         title="Tổng lượng bán theo danh mục",
         labels={"category": "Danh mục", "quantity_sold": "Tổng đơn", "color": "Đơn"},
         text="quantity_sold",
@@ -268,9 +286,7 @@ def create_sales_layout(df):
                             ),
                             html.P(
                                 [
-                                    html.Strong("Màu (The Big Book of Dashboards): "),
-                                    "một dải màu tuần tự cho tổng hợp; xếp hạng dùng một màu cố định để so sánh theo độ dài cột. ",
-                                    "Thanh công cụ: phóng to, pan, chọn vùng, xuất ảnh.",
+  
                                 ],
                                 className="small text-muted mb-0",
                             ),

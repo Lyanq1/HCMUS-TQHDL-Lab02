@@ -27,7 +27,6 @@ def create_overview_layout(df):
     seg_revenue = seg_revenue.sort_values('revenue_pct', ascending=True)
 
     return dbc.Container([
-        # KPI Cards
         dbc.Row([
             dbc.Col([
                 dbc.Card([
@@ -92,7 +91,7 @@ def create_overview_layout(df):
                         x='revenue_pct',
                         y='price_segment',
                         orientation='h',
-                        title="Tỷ trọng doanh thu theo khúc giá (%)",
+                        title="Tỷ trọng doanh thu theo phân khúc giá (%)",
                         labels={"revenue_pct": "Tỷ trọng doanh thu (%)", "price_segment": ""},
                         color='revenue_pct',
                         color_continuous_scale='Blues',

@@ -64,30 +64,33 @@ def create_ai_layout(df):
                     ),
                 ]
             ),
-            dbc.Row(
-                [
-                    dbc.Col(
-                        [
-                            html.H5("Giải thích (Markdown)"),
-                            dcc.Markdown(id="ai-explanation", className="border rounded p-3 bg-light", children="*(Chưa có kết quả)*"),
-                        ],
-                        md=6,
-                    ),
-                    dbc.Col(
-                        [
-                            html.H5("Mã Python (có thể sửa trước khi chạy)"),
-                            dbc.Textarea(
-                                id="ai-code",
-                                rows=22,
-                                className="font-monospace small",
-                                spellCheck=False,
-                                style={"fontFamily": "ui-monospace, monospace"},
-                            ),
-                        ],
-                        md=6,
-                    ),
-                ],
-                className="mb-3",
+            dcc.Loading(
+                type="default",
+                children=dbc.Row(
+                    [
+                        dbc.Col(
+                            [
+                                html.H5("Giải thích (Markdown)"),
+                                dcc.Markdown(id="ai-explanation", className="border rounded p-3 bg-light", children="*(Chưa có kết quả)*"),
+                            ],
+                            md=6,
+                        ),
+                        dbc.Col(
+                            [
+                                html.H5("Mã Python (có thể sửa trước khi chạy)"),
+                                dbc.Textarea(
+                                    id="ai-code",
+                                    rows=22,
+                                    className="font-monospace small",
+                                    spellCheck=False,
+                                    style={"fontFamily": "ui-monospace, monospace"},
+                                ),
+                            ],
+                            md=6,
+                        ),
+                    ],
+                    className="mb-3",
+                ),
             ),
             dbc.Row(
                 [

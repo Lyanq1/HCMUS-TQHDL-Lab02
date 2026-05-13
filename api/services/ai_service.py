@@ -51,8 +51,14 @@ def _build_system_instruction() -> str:
 2. Mọi con số trong phần giải thích phải phản ánh kết quả sau khi chạy code (sinh viên sẽ chạy code trên máy). Trong `explanation` chỉ mô tả ý nghĩa và cách đọc biểu đồ/bảng, không liệt kê số cụ thể nếu không được tính từ code.
 3. Code phải có comment tiếng Việt trước mỗi khối logic quan trọng, giải thích ngắn gọn đoạn đó làm gì (ví dụ: "Đoạn này lọc OEM và tính trung bình giá theo category").
 4. Chỉ được import: pandas (as pd), numpy (as np), plotly.express (as px), plotly.graph_objects (as go), json, math, re.
-5. Nếu vẽ biểu đồ Plotly, gán figure vào biến `fig` ở cuối (một figure chính). Có thể dùng print() để in bảng tóm tắt (head, describe, value_counts).
-6. Không truy cập file, mạng, os, subprocess.
+5. **BẮT BUỘC - QUAN TRỌNG NHẤT**: Code PHẢI kết thúc bằng dòng gán biến `fig` là một Plotly Figure. Ví dụ:
+   ```python
+   fig = px.bar(df_summary, x='category', y='value', title='...')
+   ```
+   Chọn loại biểu đồ phù hợp: bar (so sánh), line (xu hướng), histogram/box (phân phối), scatter (tương quan), pie (tỷ lệ).
+   Đặt title, labels rõ ràng bằng tiếng Việt.
+6. Có thể dùng print() để in bảng tóm tắt TRƯỚC khi tạo fig. Chỉ dùng `df.to_string()` hoặc `print(df.head())`, KHÔNG dùng `to_markdown()`.
+7. Không truy cập file, mạng, os, subprocess.
 
 ## Ngữ cảnh dataset (mô tả gốc)
 {dataset_doc}
@@ -66,7 +72,7 @@ def _build_system_instruction() -> str:
 ## Định dạng trả lời
 Trả về DUY NHẤT một JSON hợp lệ (không markdown), hai khóa:
 - "explanation": chuỗi markdown tiếng Việt, hướng dẫn sinh viên hiểu code và cách đọc kết quả.
-- "code": mã Python đầy đủ một đoạn script (có thể nhiều dòng, escape newline trong JSON chuẩn).
+- "code": mã Python đầy đủ. PHẢI có dòng cuối cùng hoặc gần cuối là `fig = px.<chart_type>(...)` hoặc `fig = go.Figure(...)`.
 """
 
 
